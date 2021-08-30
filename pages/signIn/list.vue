@@ -3,7 +3,7 @@
 		<view class="list">
 			<view class="flex_col" @longpress="onLongPress" :class="{'active':pickerUserIndex==index}" v-for="(item,index) in dataList"
 			 :key="index" :data-index="index" @click="openItem(item)">
-				<image src="../../static/logo.png" mode="aspectFill"></image>
+				<image :src="item.img" mode="aspectFill"></image>
 				<view class="flex_grow">
 					<view class="flex_col">
 						<view class="flex_grow">{{item.name}}</view>
@@ -30,7 +30,7 @@
 			addSymbol
 		},
 		data() {
-			return {
+			return { 
 				userList: [],
 				/* 窗口尺寸 */
 				winSize: {},
@@ -94,6 +94,14 @@
 				list({})
 				.then((res)=>{
 					this.dataList = res.data.data
+					this.dataList.forEach(function(value, row, idnex){
+						if(value.todaySignIn){
+							value.img = "../../static/img/icon/signin.png"
+						} else {
+							value.img = "../../static/img/icon/unsign.png"
+						}
+						
+					})
 				})
 				.catch((error)=>{
 					uni.showToast({

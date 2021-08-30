@@ -31,32 +31,28 @@
 				let data = {}
 				data.name = res.text.substring(0, 5)
 				data.content = res.html
-				update(data, that.id)
-					.then((res) => {
-						data = res.data.data
-						try {
-							const value = uni.getStorageSync('note_list');
-							if (value) {
-								dataList.push(data)
-								value.forEach(function(value, index, arr) {
-									if (value.id != that.id) {
-										dataList.push(value)
-									}
-								})
-								try {
-									uni.setStorageSync('note_list', dataList);
-									uni.navigateBack({
-										
-									})
-								} catch (e) {
-									// error
-								}
+				data.updateTime = new Date()
+				try {
+					const value = uni.getStorageSync('note_list');
+					if (value) {
+						dataList.push(data)
+						value.forEach(function(value, index, arr) {
+							if (value.id != that.id) {
+								dataList.push(value)
 							}
+						})
+						try {
+							uni.setStorageSync('note_list', dataList);
+							uni.navigateBack({
+								
+							})
 						} catch (e) {
 							// error
 						}
-					})
-					.catch((error) => {})
+					}
+				} catch (e) {
+					// error
+				}
 			},
 			initData() {
 				let that = this

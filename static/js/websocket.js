@@ -1,4 +1,4 @@
-let sockeUrl = 'ws://api.dliony.com/app/im/robot';//后台地址
+let sockeUrl = 'ws://api.dliony.com/app/im/robot'; //后台地址
 
 let isSocketClose = false; // 是否关闭socket
 let reconnectCount = 5; // 重连次数

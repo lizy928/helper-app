@@ -28,35 +28,33 @@
 					})
 				}
 				// res.html res.text res.isPublic
-				let data = {}
-				data.content = res.html
-				data.name = res.text.substring(0,10);
-				add(data)
-				.then((res) => {
-					let newItem = res.data.data;
-					let noteList = []
-					// 取缓存数据
+				let newItem = {}
+				debugger
+				newItem.content = res.html
+				newItem.name = res.text.substring(0,10);
+				newItem.createTime = new Date()
+				newItem.updateTime = new Date()
+				let noteList = []
+				// 取缓存数据
+				try {
+					const value = uni.getStorageSync('note_list');
+					noteList.push(newItem)
+					if (value) {
+						value.forEach(function(item){
+							noteList.push(item)
+						})	
+					}
 					try {
-					    const value = uni.getStorageSync('note_list');
-					    if (value) {
-					        noteList = value
-					        noteList.push(newItem)
-							try {
-							    uni.setStorageSync('note_list', noteList);
-								uni.navigateBack({
-									
-								})
-							} catch (e) {
-							    // error
-							}		
-					    }
+						uni.setStorageSync('note_list', noteList);
+						uni.navigateBack({
+							
+						})
 					} catch (e) {
-					    // error
-					}		
-				})
-				.catch((error) => {
-
-				})
+						// error
+					}	
+				} catch (e) {
+					// error
+				}		
 			}
 		}
 	}

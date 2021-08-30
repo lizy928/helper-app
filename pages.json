@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
 			}
 		}, {
 			"path": "pages/signIn/list",
@@ -83,8 +83,8 @@
             "path" : "pages/note/list",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "日记",
-                "enablePullDownRefresh": true
+                "navigationBarTitleText": "备忘录",
+                "enablePullDownRefresh": false
             }
             
         }
