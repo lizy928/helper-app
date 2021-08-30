@@ -3,7 +3,7 @@
 		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
 			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
 			<view class="logo-title">
-				<text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text>
+				<text class="uer-name">Hi，{{login ? uerInfo.nickName : '您未登录'}}</text>
 				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
 			</view>
 		</view>
@@ -16,6 +16,21 @@
 			<view class="center-list-item">
 				<text class="list-icon">&#xe639;</text>
 				<text class="list-text">新消息通知</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item" @click="openChat">
+				<text class="list-icon">&#xe639;</text>
+				<text class="list-text">机器人聊天</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item" @click="openEventConfig">
+				<text class="list-icon">&#xe639;</text>
+				<text class="list-text">事件提醒</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item" @click="openCacheManger">
+				<text class="list-icon">&#xe639;</text>
+				<text class="list-text">缓存管理</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
@@ -38,6 +53,13 @@
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 		</view>
+		<view class="center-list">
+			<view class="center-list-item" @click="logout">
+				<text class="list-icon">&#xe614;</text>
+				<text class="list-text">注销</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -50,11 +72,51 @@
 				uerInfo: {}
 			}
 		},
+		created() {
+			const userInfo = uni.getStorageSync('userInfo'); 
+			this.uerInfo = userInfo
+			if(userInfo){
+				this.login = true
+			}
+		},
 		methods: {
 			goLogin() {
 				if (!this.login) {
-					console.log("点击前往登录")
+					uni.navigateTo({
+						url: '../login/login'
+					})
 				}
+			},
+			logout(){
+				uni.removeStorage({
+					key: "token",
+					success() {
+						uni.navigateTo({
+							url: '../login/login'
+						})
+					}
+				})
+				uni.removeStorage({
+					key: "userInfo",
+					success() {
+						
+					}
+				})
+			},
+			openChat(){
+				uni.navigateTo({
+					url: '../HM-chat/HM-chat'
+				})
+			},
+			openCacheManger(){
+				uni.navigateTo({
+					url: 'cacheManager'
+				})
+			},
+			openEventConfig(){
+				uni.navigateTo({
+					url: 'eventReminder/eventReminder'
+				})
 			}
 		}
 	}

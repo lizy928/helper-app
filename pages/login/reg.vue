@@ -9,20 +9,29 @@
         <image class="img" src="/static/login/1.png"></image>
         <input class="sl-input" v-model="phone" type="number" maxlength="11" placeholder="手机号" />
       </view>
+	  <view class="list-call">
+	    <image class="img" src="/static/login/4.png"></image>
+	    <input class="sl-input" v-model="nickName" type="text" maxlength="20" placeholder="昵称" />
+	  </view>
       <view class="list-call">
         <image class="img" src="/static/login/2.png"></image>
         <input class="sl-input" v-model="password" type="text" maxlength="32" placeholder="登录密码" :password="!showPassword" />
         <image class="img" :src="showPassword?'/static/login/op.png':'/static/login/cl.png'" @tap="display"></image>
       </view>
-      <view class="list-call">
+	  <view class="list-call">
+	    <image class="img" src="/static/login/2.png"></image>
+	    <input class="sl-input" v-model="newPassword" type="text" maxlength="32" placeholder="重复密码" :password="!showNewPassword" />
+	    <image class="img" :src="showNewPassword?'/static/login/op.png':'/static/login/cl.png'" @tap="display"></image>
+	  </view>
+      <!-- <view class="list-call">
         <image class="img" src="/static/login/3.png"></image>
         <input class="sl-input" v-model="code" type="number" maxlength="4" placeholder="验证码" />
         <view class="yzm" :class="{ yzms: second>0 }" @tap="getcode">{{yanzhengma}}</view>
-      </view>
-      <view class="list-call">
+      </view> -->
+     <!-- <view class="list-call">
         <image class="img" src="/static/login/4.png"></image>
         <input class="sl-input" v-model="invitation" type="text" maxlength="12" placeholder="邀请码" />
-      </view>
+      </view> -->
 
     </view>
 
@@ -39,6 +48,7 @@
 </template>
 
 <script>
+	import {register} from '../../api/api'
   var _this, js;
   export default {
     onLoad() {
@@ -53,10 +63,13 @@
       return {
         phone: '',
         password: '',
+		newPassword: '',
+		nickName: '',
         code: '',
         invitation: '',
         agreement: true,
         showPassword: false,
+		showNewPassword: false,
         second: 0
       };
     },
@@ -84,6 +97,7 @@
       },
       display() {
         this.showPassword = !this.showPassword
+		this.showNewPassword = !this.showNewPassword
       },
       agreementSuccess() {
         this.agreement = !this.agreement;
@@ -153,47 +167,53 @@
           });
           return;
         }
-        if (this.password.length < 6) {
+        if (this.password.length < 4) {
           uni.showToast({
             icon: 'none',
-            title: '密码不正确'
+            title: '密码不能小于四位!'
           });
           return;
         }
-        if (this.code.length != 4) {
-          uni.showToast({
-            icon: 'none',
-            title: '验证码不正确'
-          });
-          return;
-        }
-        uni.request({
-          url: 'http://***/reg.html',
-          data: {
-            phone: this.phone,
-            password: this.password,
-            code: this.code,
-            invitation: this.invitation
-          },
-          method: 'POST',
-          dataType: 'json',
-          success: (res) => {
-            if (res.data.code != 200) {
-              uni.showToast({
-                title: res.data.msg,
-                icon: 'none'
-              });
-            } else {
-              uni.showToast({
-                title: res.data.msg
-              });
-              setTimeout(function() {
-                uni.navigateBack();
-              }, 1500)
-            }
-          }
-        });
-
+        // if (this.code.length != 4) {
+        //   uni.showToast({
+        //     icon: 'none',
+        //     title: '验证码不正确'
+        //   });
+        //   return;
+        // }
+		if(this.password !== this.newPassword){
+			uni.showToast({
+				icon: "error",
+				title: "两次密码不一致!",
+			})
+			return
+		}
+		let data = {}
+		data.username = this.phone
+		data.password = this.password
+		data.nickName = this.nickName
+        register(data)
+		.then((res)=>{
+			if(res.data.code === 200){
+				uni.showToast({
+					icon: "success",
+					title: "注册成功!",
+					duration: "3000"
+				})
+				uni.navigateTo({
+					url: 'login'
+				})
+			} else {
+				uni.showToast({
+					icon: "error",
+					title: res.data.message,
+					duration: 2000
+				})
+			}
+		})
+		.catch((error)=>{
+			
+		})
       }
     }
   }

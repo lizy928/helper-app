@@ -68,7 +68,7 @@ export default {
     },
     imgSrc: {
       type: String,
-      default: 'https://gd-filems.dancf.com/mps/mcm79j/mcm79j/b7fd55ad-4759-4040-8d83-671f3ffa6846.png'
+      default: '/static/add.png'
     }
   },
   data () {

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+	import {login} from '../../api/api.js'
   export default {
     data() {
       return {
@@ -45,55 +46,48 @@
           });
           return;
         }
-        if (this.password.length < 6) {
+        if (this.password.length < 4) {
           uni.showToast({
             icon: 'none',
             title: '密码不正确'
           });
           return;
         }
-        uni.request({
-          url: 'http://***/login.html',
-          data: {
-            phone: this.phone,
-            password: this.password
-          },
-          method: 'POST',
-          dataType: 'json',
-          success: (res) => {
-            if (res.data.code != 200) {
-              uni.showToast({
-                title: res.data.msg,
-                icon: 'none'
-              });
-            } else {
-              //成功后的逻辑
-			  uni.setStorage({
-			  	key: "userInfo",
-			  	data: userInfo,
-			  	success: (res) => {
-			  		//console.log("存放的值"+res.data);
-			  	}
-			  });
-			  uni.setStorage({
-			  	key: "token",
-			  	data: res.data.data.token,
-			  	success: (res) => {
-			  		//console.log("存放的值"+res.data);
-			  	}
-			  });
-			  uni.showToast({
-			  	title: res.data.message,
-			  	icon: 'none'
-			  });
-			  uni.reLaunch({
-			  	url: '../index/index'
-			  });
-              //uni.navigateBack();
-            }
-          }
-        });
-
+		let data = {}
+		data.username = this.phone
+		data.password = this.password
+		login(data)
+		.then((res)=>{
+			debugger
+			if(res.data.code === 200){
+				uni.setStorage({
+				  key: "token",
+				  data: res.data.data.token,
+				  success: (res) => {
+					
+				  }
+				});
+				uni.setStorage({
+				  key: "userInfo",
+				  data: res.data.data,
+				  success: (res) => {
+					
+				  }
+				});
+				uni.switchTab({
+					url: '../index/index'
+				})
+			} else {
+				uni.showToast({
+					icon: "error",
+					title: res.data.message,
+					duration: 3000
+				})
+			}
+		})
+		.catch((error=>{
+			
+		}))	
       }
     }
   }

@@ -1,81 +1,98 @@
-import baseurl from './http.js' //公共接口地址
+//import {baseUrl} from 'http'
 
-const userInfo = uni.getStorageSync('token');    //获取token
-const token = userInfo.token  //获取token
+const baseUrl = 'http://api.dliony.com/'//后台地址
 
-// 请求封装
-export const request = (obj) =>{
-	let url = baseurl + obj.url;  //地址
-	let data = obj.data || {};
-	let success = obj.success;
-	let method = obj.method || 'POST';
-	uni.request({
-		url: url,
-		data:data,
-		header:{
-			'token':token,
+//带Token请求 
+export const request = (opts) => {
+	//此token是登录成功后后台返回保存在storage中的
+	const token = uni.getStorageSync('token'); //获取token
+	let httpDefaultOpts = {
+		url: baseUrl + opts.url,
+		method: opts.method,
+		data: opts.data,
+		header: {
+			'Token': token,
 		},
-		method: method,
-		success: function(res) {
-			// 判断token是否过期
-			if (res.data.status == 601) {
-				uni.showModal({
-					title: '提示',
-					content: res.data.statusMsg,
-					showCancel: false,
-					success: function(res) {
-						if (res.confirm) {
-							uni.redirectTo({
-								url: '../login/login'
+		dataType: 'json',
+	}
+	let promise = new Promise(function(resolve, reject) {
+		uni.request(httpDefaultOpts).then(
+			(res) => {
+				console.log("res:" + res)
+				resolve(res[1])
+				let code = res[1].statusCode;
+				if(code === 200){
+					if(res[1].data.code === 200){
+						resolve(res[1])
+					} else {
+						if(res[1].data.code === 401){
+							uni.showToast({
+								title: "登录信息失效！"
+							})
+							uni.navigateTo({
+								url: '/pages/login/login'
+							})
+						} else {
+							uni.showToast({
+								icon: "error",
+								title: res[1].data.message,
+								duration: 3000
 							})
 						}
+						return
 					}
-				})
-				return
-			}
-			
-				success(res)
+				} else {
+					uni.showToast({
+						icon: "error",
+						title: "请求失败!",
+						duration: 3000
+					})
+				}
 				
-	
-		
-		},
-		fail: function(res) {},
-		complete: function(res) {
-			console.log("请求成功")
-		},
+			}
+		).catch(
+			(response) => {
+				console.log("response:"+response)
+				uni.showToast({
+					icon: "error",
+					title: "网络错误!",
+					duration: 3000
+				})
+				reject(response)
+			}
+		)
 	})
-}
+	return promise
+};
+
+
+
 // 上传图片封装
 function uploadFile(obj) {
-	let url = baseurl + 'file-list/uploadImage';  //服务器地址
-	let filePath = obj.filePath;   //要上传文件资源的路径。
-	let formData = obj.formData || {'user': 'test'};
+	let url = baseUrl + 'file-list/uploadImage'; //服务器地址
+	let filePath = obj.filePath; //要上传文件资源的路径。
+	let formData = obj.formData || {
+		'user': 'test'
+	};
 	let success = obj.success;
-	let name = obj.name || 'filePath';  //文件对应的 key 
-	let method = obj.method || 'POST';  //默认post请求
+	let name = obj.name || 'filePath'; //文件对应的 key 
+	let method = obj.method || 'POST'; //默认post请求
 	uni.uploadFile({
 		url: url,
 		filePath: filePath,
 		name: name,
 		formData: formData,
 		header: {
-			'token':token,
+			'token': token,
 		},
 		success: function(res) {
 			success(res)
 		},
-		fail: function(res) {
-		},
-		complete: function(res) {
-		},
+		fail: function(res) {},
+		complete: function(res) {},
 	})
 }
 /* export default {
 	request: request,
 	uploadFile: uploadFile
 }; */
-
-
-
-
-

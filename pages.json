@@ -6,14 +6,14 @@
 				"navigationBarTitleText": "uni-app"
 			}
 		}, {
-			"path": "pages/calendar/list",
+			"path": "pages/signIn/list",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "签到列表",
+				"enablePullDownRefresh": true
 			}
 
 		}, {
-			"path": "pages/calendar/calendar",
+			"path": "pages/signIn/signIn",
 			"style": {
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
@@ -53,7 +53,7 @@
 			}
 		}
 	    ,{
-            "path" : "pages/diary/diary",
+            "path" : "pages/note/note",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -62,7 +62,97 @@
             
         }
         ,{
-            "path" : "pages/calendar/addProject",
+            "path" : "pages/signIn/addProject",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/signIn/editProject",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/note/list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "日记",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/note/add",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "备忘录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/note/edit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+		{
+		    "path" : "pages/HM-chat/HM-chat",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/HM-chat/HM-hand/HM-hand",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/HM-chat/HM-details/HM-details",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/my/cacheManager",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "缓存清理",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/eventReminder/eventReminder",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提醒列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/eventReminder/add",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -84,11 +174,11 @@
 				"pagePath": "pages/index/index"
 			}, {
 				"text": "打卡",
-				"pagePath": "pages/calendar/list"
+				"pagePath": "pages/signIn/list"
 			},
 			{
 				"text": "日记",
-				"pagePath": "pages/diary/diary"
+				"pagePath": "pages/note/list"
 			}, {
 				"text": "我的",
 				"pagePath": "pages/my/my"
