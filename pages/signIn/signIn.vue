@@ -6,11 +6,11 @@
 		<view class='count'>
 			<text>截至目前，已坚持打卡</text>
 			<view class='daynumber'>
-				<text class='number'>{{sumCount}}</text>
+				<text class='number'>{{totalCount}}</text>
 				<text class='day'>天</text>
 			</view>
 
-			<view>累积打卡<text class="monthSum">{{signData.length}}</text>天</view>
+			<view>本月累积打卡<text class="monthSum">{{monthCount}}</text>天</view>
 			<text>请再接再厉，继续努力!</text>
 		</view>
 	</view>
@@ -26,9 +26,10 @@
 			return {
 				toYear: parseInt(new Date().getFullYear()), //本日
 				toMonth: parseInt(new Date().getMonth() + 1), //本月
-				sumCount: 0,
+				totalCount: 0,
 				signData: [],
 				singInId: '',
+				monthCount: 0
 			};
 		},
 		components: {
@@ -93,7 +94,9 @@
 				let that = this
 				getRecordDetail(that.singInId)
 					.then((res) => {
-						let list = res.data.data
+						this.totalCount = res.data.data.totalCount
+						this.monthCount = res.data.data.monthCount
+						let list = res.data.data.recordList
 						list.forEach(function(value, row, index) {
 							that.SignUp.push(value.signInTime)
 						})

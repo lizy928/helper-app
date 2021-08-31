@@ -81,17 +81,16 @@
 		},
 		methods: {
 			changeMethod(data, button, index) {
-				console.log('滑动按钮回调', data)
-				console.log('滑动按钮回调', button)
 				if ("删除" === button.title) {
 					// 删除
 					this.delete(data.id)
 				}
 			},
 			clickMethod(data) {
+				debugger
 				console.log('点击行回调', data)
 				uni.navigateTo({
-					url: 'edit?id=' + data.id
+					url: 'edit?index=' + data.index
 				})
 			},
 			floatTapEvent() {
@@ -112,6 +111,7 @@
 							item.detail = value.name
 							item.rightDetail = value.createTime ? value.createTime : value.updateTime
 							item.slide_x = 0
+							item.index = index
 							dataList.push(item)
 							that.noteList = dataList
 						})
@@ -131,6 +131,7 @@
 					})
 			},
 			listData() {
+				this.noteList = []
 				let that = this
 				let dataList = []
 				try {
@@ -139,13 +140,13 @@
 				        value.forEach(function(value, index, arr) {
 				        	if (value) {
 				        		let item = {}
-								debugger
 				        		item.id = value.id
 				        		item.title = value.name.substring(0, 5);
 				        		item.detail = value.name
 				        		item.rightDetail = value.createTime ? value.createTime : value
 				        			.updateTime
 				        		item.slide_x = 0
+								item.index = index
 				        		dataList.push(item)
 				        		that.noteList = dataList
 				        	}
@@ -157,36 +158,9 @@
 			},
 			delete(id) {
 				let that = this
-				let dataList = []
-				let storeList = []
 				del(id)
 				.then((res) => {
-					try {
-					    const value = uni.getStorageSync('note_list');
-					    if (value) {
-					        value.forEach(function(value, index, arr) {
-					        	if(id !== value.id){
-					        		let item = {}
-					        		item.id = value.id
-					        		item.title = value.name.substring(0, 5);
-					        		item.detail = value.name
-					        		item.rightDetail = value.createTime ? value.createTime : value
-					        			.updateTime
-					        		item.slide_x = 0
-					        		dataList.push(item)
-					        		storeList.push(value)
-					        	}
-					        })
-					    }
-						try {
-						    uni.setStorageSync('note_list', storeList);
-						} catch (e) {
-						    // error
-						}
-						that.noteList = dataList
-					} catch (e) {
-					    // error
-					}
+					that.listData()
 				})
 				.catch((error) => {
 

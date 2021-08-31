@@ -6,6 +6,7 @@
 
 <script>
 	import jinEdit from '../../components/jin-edit/jin-edit.vue';
+	import {dateFtt} from '../../utils/DateUtil.js'
 	import {
 		update
 	} from '../../api/note'
@@ -15,12 +16,12 @@
 		},
 		data() {
 			return {
-				id: '',
+				index: '',
 				content: '',
 			}
 		},
 		onLoad(option) {
-			this.id = option.id
+			this.index = option.index
 			this.initData()
 		},
 		methods: {
@@ -29,15 +30,15 @@
 				let that = this
 				let dataList = []
 				let data = {}
-				data.name = res.text.substring(0, 5)
+				data.name = res.text.substring(0, 10)
 				data.content = res.html
-				data.updateTime = new Date()
+				data.updateTime = dateFtt("yyyy-MM-dd hh:mm:ss", new Date())
 				try {
 					const value = uni.getStorageSync('note_list');
 					if (value) {
 						dataList.push(data)
 						value.forEach(function(value, index, arr) {
-							if (value.id != that.id) {
+							if (index !== that.index) {
 								dataList.push(value)
 							}
 						})
@@ -60,7 +61,7 @@
 					const value = uni.getStorageSync('note_list');
 					if (value) {
 						value.forEach(function(value, index, arr) {
-							if (value.id == that.id) {
+							if (index == that.index) {
 								that.content = value.content
 							}
 						})

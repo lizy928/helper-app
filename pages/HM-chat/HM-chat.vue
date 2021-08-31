@@ -735,7 +735,10 @@
 			//websocet函数回调：返回监听的数据
 			getWebsocetData(val){
 			// val = String.fromCharCode.apply(null, new Uint8Array(val)).trim()  如果后端返回数据格式是其他的，可能需要转换一下，比如这个，应该是转Unicode编码
-				console.log(val,'函数回调');
+				if(val.isShow){
+					console.log(val,'函数回调');
+					return;
+				}
 				this.scanCode = val;
 				let message = JSON.parse(val)
 				//let message = eval('(' + json + ')');

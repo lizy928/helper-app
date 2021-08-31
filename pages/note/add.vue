@@ -6,6 +6,7 @@
 
 <script>
 	import jinEdit from '../../components/jin-edit/jin-edit.vue';
+	import {dateFtt} from '../../utils/DateUtil.js'
 	import {
 		add
 	} from '../../api/note.js'
@@ -29,11 +30,10 @@
 				}
 				// res.html res.text res.isPublic
 				let newItem = {}
-				debugger
 				newItem.content = res.html
 				newItem.name = res.text.substring(0,10);
-				newItem.createTime = new Date()
-				newItem.updateTime = new Date()
+				newItem.createTime = dateFtt("yyyy-MM-dd hh:mm:ss", new Date())
+				newItem.updateTime = dateFtt("yyyy-MM-dd hh:mm:ss", new Date())
 				let noteList = []
 				// 取缓存数据
 				try {

@@ -48,7 +48,6 @@
 		},
 		methods: {
 			listData(){
-				debugger
 				let that = this
 				listComment({})
 				.then((res)=>{
