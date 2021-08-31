@@ -8,56 +8,44 @@
 			</view>
 		</view>
 		<view class="center-list">
-			<view class="center-list-item border-bottom">
-				<text class="list-icon">&#xe60f;</text>
-				<text class="list-text">帐号管理</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+			<view class="center-list-item border-bottom" @click="openMyInfo">
+				<text class="list-icon">&#xed79;</text>
+				<text class="list-text">资料管理</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
-			<view class="center-list-item">
-				<text class="list-icon">&#xe639;</text>
-				<text class="list-text">新消息通知</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+			<view class="center-list-item border-bottom">
+				<text class="list-icon">&#xe604;</text>
+				<text class="list-text">个人设置</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 			<view class="center-list-item" @click="openChat">
-				<text class="list-icon">&#xe639;</text>
+				<text class="list-icon">&#xe611;</text>
 				<text class="list-text">机器人聊天</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 			<view class="center-list-item" @click="openEventConfig">
-				<text class="list-icon">&#xe639;</text>
+				<text class="list-icon">&#xe665;</text>
 				<text class="list-text">事件提醒</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 			<view class="center-list-item" @click="openCacheManger">
-				<text class="list-icon">&#xe639;</text>
+				<text class="list-icon">&#xe69a;</text>
 				<text class="list-text">缓存管理</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 		</view>
 		<view class="center-list">
 			<view class="center-list-item border-bottom">
-				<text class="list-icon">&#xe60b;</text>
+				<text class="list-icon">&#xe67e;</text>
 				<text class="list-text">帮助与反馈</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
-			<view class="center-list-item">
-				<text class="list-icon">&#xe65f;</text>
-				<text class="list-text">服务条款及隐私</text>
-				<text class="navigat-arrow">&#xe65e;</text>
-			</view>
-		</view>
-		<view class="center-list">
-			<view class="center-list-item">
-				<text class="list-icon">&#xe614;</text>
-				<text class="list-text">关于应用</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 		</view>
 		<view class="center-list">
 			<view class="center-list-item" @click="logout">
-				<text class="list-icon">&#xe614;</text>
+				<text class="list-icon">&#xe608;</text>
 				<text class="list-text">注销</text>
-				<text class="navigat-arrow">&#xe65e;</text>
+				<text class="navigat-arrow">&#xe600;</text>
 			</view>
 		</view>
 	</view>
@@ -68,7 +56,7 @@
 		data() {
 			return {
 				login: false,
-				avatarUrl: "../../static/uni-center/logo.png",
+				avatarUrl: "../../static/logo.png",
 				uerInfo: {}
 			}
 		},
@@ -117,6 +105,11 @@
 				uni.navigateTo({
 					url: 'eventReminder/eventReminder'
 				})
+			},
+			openMyInfo(){
+				uni.navigateTo({
+					url: 'userInfo'
+				})
 			}
 		}
 	}
@@ -124,12 +117,22 @@
 
 <style>
 	@font-face {
+	  font-family: texticons;
+	  font-weight: normal;
+	  font-style: normal;
+		src: url('https://at.alicdn.com/t/font_2781060_dfdkl9iqz7.woff2?t=1630421226928') format('woff2'),
+	        url('https://at.alicdn.com/t/font_2781060_dfdkl9iqz7.woff?t=1630421226928') format('woff'),
+	        url('https://at.alicdn.com/t/font_2781060_dfdkl9iqz7.ttf?t=1630421226928') format('truetype');
+		}
+	
+	
+	/* @font-face {
 		font-family: texticons;
 		font-weight: normal;
 		font-style: normal;
 		src: url('https://at.alicdn.com/t/font_984210_5cs13ndgqsn.ttf') format('truetype');
 	}
-
+ */
 	page,
 	view {
 		display: flex;

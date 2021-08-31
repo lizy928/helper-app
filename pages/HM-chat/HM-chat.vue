@@ -361,10 +361,10 @@
 				setTimeout(()=>{
 					// 消息列表
 					let list = [
-						{type:"user",msg:{id:1,type:"text",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{text:"为什么温度会相差那么大？"}}},
-						{type:"user",msg:{id:2,type:"text",time:"12:57",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{text:"这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。"}}},
-						{type:"user",msg:{id:3,type:"voice",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/voice/1.mp3",length:"00:06"}}},
-						{type:"user",msg:{id:4,type:"voice",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/voice/2.mp3",length:"00:06"}}},
+						//{type:"user",msg:{id:1,type:"text",time:"12:56",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{text:"为什么温度会相差那么大？"}}},
+						//{type:"user",msg:{id:2,type:"text",time:"12:57",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{text:"这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。"}}},
+						//{type:"user",msg:{id:3,type:"voice",time:"12:59",userinfo:{uid:1,username:"售后客服008",face:"/static/img/im/face/face_2.jpg"},content:{url:"/static/voice/1.mp3",length:"00:06"}}},
+						//{type:"user",msg:{id:4,type:"voice",time:"13:05",userinfo:{uid:0,username:"大黑哥",face:"/static/img/face.jpg"},content:{url:"/static/voice/2.mp3",length:"00:06"}}},
 					]
 					// 获取消息中的图片,并处理显示尺寸
 					for(let i=0;i<list.length;i++){
@@ -742,13 +742,14 @@
 				this.scanCode = val;
 				let message = JSON.parse(val)
 				//let message = eval('(' + json + ')');
-				
+				let lastid = this.msgList.length ==0 ? 0 : this.msgList[this.msgList.length-1].msg.id;
+				lastid++;
 				var nowDate = new Date();
 				let type = 'text' // text/voice/imag
 				let msg = {
 					type:'user',
 					msg:{
-						id:1,
+						id: lastid,
 						time:nowDate.getHours()+":"+nowDate.getMinutes(),
 						type:type,
 						userinfo:{
@@ -783,11 +784,12 @@
 			sendMsg(content,type){
 				//实际应用中，此处应该提交长连接，模板仅做本地处理。
 				var nowDate = new Date();
-				//let lastid = this.msgList[this.msgList.length-1].msg.id;
-				//lastid++;
+				let lastid = this.msgList.length ==0 ? 0 : this.msgList[this.msgList.length-1].msg.id;
+				lastid++;
 				let msg = {
 					type:'user',
 					msg:{
+						id: lastid,
 						time:nowDate.getHours()+":"+nowDate.getMinutes(),
 						type:type,
 						userinfo:{

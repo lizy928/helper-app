@@ -1,6 +1,4 @@
-//import {baseUrl} from 'http'
-
-const baseUrl = 'http://api.dliony.com/'//后台地址
+import {baseUrl} from './http.js'
 
 //带Token请求 
 export const request = (opts) => {

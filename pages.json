@@ -158,8 +158,15 @@
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
-            
-        }
+        },
+		{
+		    "path" : "pages/my/userInfo",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "修改个人信息",
+		        "enablePullDownRefresh": false
+		    }
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -171,17 +178,25 @@
 	"tabBar": {
 		"list": [{
 				"text": "首页",
-				"pagePath": "pages/index/index"
+				"pagePath": "pages/index/index",
+				"iconPath": "static/img/icon/home.png",
+				"selectedIconPath": "static/img/icon/home_active.png"
 			}, {
 				"text": "打卡",
-				"pagePath": "pages/signIn/list"
+				"pagePath": "pages/signIn/list",
+				"iconPath": "static/img/icon/signin_bar.png",
+				"selectedIconPath": "static/img/icon/sign_bar_acvive.png"
 			},
 			{
-				"text": "日记",
-				"pagePath": "pages/note/list"
+				"text": "备忘录",
+				"pagePath": "pages/note/list",
+				"iconPath":"static/img/icon/note.png",
+				"selectedIconPath":"static/img/icon/note_acvite.png"
 			}, {
 				"text": "我的",
-				"pagePath": "pages/my/my"
+				"pagePath": "pages/my/my",
+				"iconPath":"static/img/icon/my.png",
+				"selectedIconPath":"static/img/icon/my_active.png"
 			}
 		]
 	}

@@ -1,4 +1,4 @@
-let sockeUrl = 'ws://api.dliony.com/app/im/robot'; //后台地址
+import {socketUrl} from '../../api/http.js'
 
 let isSocketClose = false; // 是否关闭socket
 let reconnectCount = 5; // 重连次数
@@ -37,7 +37,7 @@ const sokcet = (onReceive, onErrorEvent, onErrorSucceed) => {
 
 	//WebSocket的地址
 	// 【非常重要】必须确保你的服务器是成功的,如果是手机测试千万别使用ws://127.0.0.1:9099【特别容易犯的错误】
-	let url = sockeUrl
+	let url = socketUrl
 	// 连接
 	const token = uni.getStorageSync('token'); //获取token
 	socketTask = uni.connectSocket({
