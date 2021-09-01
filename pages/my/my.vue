@@ -1,7 +1,7 @@
 <template>
 	<view class="center">
 		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
-			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
+			<image class="logo-img" :src="login ? avatarUrl : avatar"></image>
 			<view class="logo-title">
 				<text class="uer-name">Hi，{{login ? uerInfo.nickName : '您未登录'}}</text>
 				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
@@ -52,20 +52,25 @@
 </template>
 
 <script>
+	import {baseUrl} from '../../api/http.js'
 	export default {
 		data() {
 			return {
 				login: false,
-				avatarUrl: "../../static/logo.png",
-				uerInfo: {}
+				avatar: '../../static/img/avatar.jpeg',
+				uerInfo: {},
+				avatarUrl: ''
 			}
 		},
-		created() {
+		onShow() {
 			const userInfo = uni.getStorageSync('userInfo'); 
 			this.uerInfo = userInfo
 			if(userInfo){
 				this.login = true
 			}
+			if(!userInfo.avatar){
+				this.avatarUrl = this.avatar
+			} else this.avatarUrl = baseUrl + 'app/file/' + userInfo.avatar
 		},
 		methods: {
 			goLogin() {

@@ -8,17 +8,12 @@
 					</view>
 				</view>
 				<text v-if="avater">修改头像</text>
-				<text v-if="!avater">授权微信</text>
+				<text v-if="!avater">上传头像</text>
 				<button v-if="!avater" open-type="getUserInfo" @tap="getUserInfo" class="getInfo"></button>
 			</view>
 			<view class="ui-list">
 				<text>昵称</text>
 				<input type="text" :placeholder="value" :value="nickName" @input="bindnickName" placeholder-class="place" />
-			</view>
-			<view class="ui-list">
-				<text>手机号</text>
-				<input v-if="mobile" type="tel" :placeholder="value" :value="mobile" @input="bindmobile" placeholder-class="place" />
-				<button v-if="!mobile" open-type="getPhoneNumber" @getphonenumber="getphonenumber" class="getInfo bun">授权手机号</button>
 			</view>
 			<view class="ui-list right">
 				<text>性别</text>
@@ -28,25 +23,6 @@
 					</view>
 				</picker>
 			</view>
-			<view class="ui-list right">
-				<text>常住地</text>
-				<picker @change="bindRegionChange" mode='region'>
-					<view class="picker">
-						{{region[0]}} {{region[1]}} {{region[2]}}
-					</view>
-				</picker>
-			</view>
-			<view class="ui-list right">
-				<text>生日</text>
-				<picker mode="date" :value="date" @change="bindDateChange">
-					<view class="picker">
-						{{date}}
-					</view>
-				</picker>
-			</view>
-			<view class="ui-list">
-				<text>签名</text>
-				<textarea :placeholder="value" placeholder-class="place" :value="description" @input="binddescription"></textarea>
 			</view>
 			<button class="save" @tap="savaInfo">保 存 修 改</button>
 		</view>
@@ -56,6 +32,7 @@
 
 <script>
 	import {baseUrl} from '../../api/http.js'
+	import {updateUserInfo} from '../../api/api.js'
 	export default {
 	
 		data() {
@@ -146,7 +123,7 @@
 				let that = this;
 				let nickname = that.nickName;
 				let headimg = that.headimg;
-				let gender = that.index + 1;
+				let sex = that.index + 1;
 				let mobile = that.mobile;
 				let region = that.region;
 				let birthday = that.date;
@@ -162,55 +139,28 @@
 				}
 				updata.nickname = nickname;
 				if (!headimg) {
-					headimg = that.avater;
+					headimg = that.headimg;
 				}
-				updata.headimg = headimg;
-				updata.gender = gender;
-				if (that.isPoneAvailable(mobile)) {
-					updata.mobile = mobile;
-				} else {
-					uni.showToast({
-						title: '手机号码有误，请重填',
-						icon: 'none',
-						duration: 2000
-					});
-					return;
-				}
-				if (region.length == 1) {
-					uni.showToast({
-						title: '请选择常住地',
-						icon: 'none',
-						duration: 2000
-					});
-					return;
-				} else {
-					updata.province = region[0];
-					updata.city = region[1];
-					updata.area = region[2];
-				}
-				if (birthday == "0000-00-00") {
-					uni.showToast({
-						title: '请选择生日',
-						icon: 'none',
-						duration: 2000
-					});
-					return;
-				}
+				updata.avatar = headimg;
+				updata.sex = sex;
 				updata.birthday = birthday;
 				updata.description = description;
 				that.updata(updata);
 			},
-			isPoneAvailable(poneInput) {
-				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if (!myreg.test(poneInput)) {
-					return false;
-				} else {
-					return true;
-				}
-			},
 			async updata(datas) {
 				//传后台
-				
+				updateUserInfo(datas)
+				.then((res)=>{
+					if(res.data.code === 200){
+						uni.showToast({
+							icon: "success",
+							title: "保存成功"
+						})
+						uni.setStorageSync("userInfo", res.data.data)
+					}
+				})
+				.catch((erroe)=>{	
+				})
 			},
 			imgUpload(file) {
 				let that = this;
@@ -228,8 +178,11 @@
 						var data = JSON.parse(res.data);
 						data = data.data;
 						let hederUrl = baseUrl + 'app/file/' + data.fileName;
+						that.headimg = data.fileName
 						that.avater = hederUrl
-						that.headimg = hederUrl
+						let userInfo = uni.getStorageSync("userInfo")
+						userInfo.avatar = data.fileName
+						uni.setStorageSync("userInfo", userInfo)
 					},
 					fail: function(error) {
 						console.log(error);
@@ -237,7 +190,11 @@
 				});
 			},
 		},
-		onLoad() {			
+		onShow() {	
+			const userInfo = uni.getStorageSync('userInfo'); 
+			this.avater = baseUrl + 'app/file/' + userInfo.avatar
+			this.nickName = userInfo.nickName
+			this.sex = userInfo.sex
 		}
 
 	}

@@ -5,6 +5,9 @@
 		<!-- <add-symbol @floatTapEvent="floatTapEvent"></add-symbol> -->
 		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction"
 		 @trigger="trigger" @fabClick="fabClick" />
+		 
+		<!-- 背景图片 --> 
+		 <image class="image-bg" src="../../static/img/bg_02.jpeg"/>
 	</view>
 </template>
 
@@ -69,7 +72,7 @@
 				]
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.listData()
 		},
 		onBackPress() {
@@ -83,7 +86,7 @@
 			changeMethod(data, button, index) {
 				if ("删除" === button.title) {
 					// 删除
-					this.delete(data.id)
+					this.delete(data.id, index)
 				}
 			},
 			clickMethod(data) {
@@ -151,20 +154,31 @@
 				        		that.noteList = dataList
 				        	}
 				        })
-				    }
+				    } else that.freshList()
 				} catch (e) {
 				    // error
 				}			
 			},
-			delete(id) {
-				let that = this
-				del(id)
-				.then((res) => {
-					that.listData()
+			delete(id, index) {
+				if(id !== undefined){
+					let that = this
+					del(id)
+					.then((res) => {
+						that.listData()
+					})
+					.catch((error) => {
+					
+					})
+				} 
+				let dataList = []
+				let noteList = uni.getStorageSync("note_list");
+				noteList.forEach(function(value, i, arr){
+					if(index != i){
+						dataList.push(value)
+					}
 				})
-				.catch((error) => {
-
-				})
+				uni.setStorageSync("note_list", dataList)
+				this.listData()
 			},
 			synchronizeData(){
 				try {
@@ -243,6 +257,15 @@
 	}
 </script>
 
-<style>
-
+<style scoped>
+.image-bg {
+    position: absolute;
+    z-index: -2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
 </style>

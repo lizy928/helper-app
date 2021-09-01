@@ -23,7 +23,7 @@ let heartBeat = {
  * onErrorSucceed：抛出成功回调，主要用于隐藏连接失败的提示框
  * */
 const sokcet = (onReceive, onErrorEvent, onErrorSucceed) => {
-	url = sockeUrl;
+	url = socketUrl;
 	onReFn = onReceive;
 	onErrFn = onErrorEvent;
 	onSucFn = onErrorSucceed;

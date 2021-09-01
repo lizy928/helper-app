@@ -222,8 +222,8 @@
 	}
 </script>
 <style lang="scss" scoped>
-	$countdown-height: 48rpx;
-	$countdown-width: 52rpx;
+	$countdown-height: 50rpx;
+	$countdown-width: 55rpx;
 
 	.uni-countdown {
 		/* #ifndef APP-NVUE */
@@ -231,7 +231,7 @@
 		/* #endif */
 		flex-direction: row;
 		justify-content: flex-start;
-		padding: 2rpx 0;
+		padding: 3rpx 0;
 	}
 
 	.uni-countdown__splitor {
@@ -240,8 +240,8 @@
 		/* #endif */
 		justify-content: center;
 		line-height: $countdown-height;
-		padding: 5rpx;
-		font-size: $uni-font-size-sm;
+		padding: 6rpx;
+		font-size: $uni-font-size-lg;
 	}
 
 	.uni-countdown__number {
@@ -253,8 +253,8 @@
 		width: $countdown-width;
 		height: $countdown-height;
 		line-height: $countdown-height;
-		margin: 5rpx;
+		margin: 8rpx;
 		text-align: center;
-		font-size: $uni-font-size-sm;
+		font-size: $uni-font-size-lg;
 	}
 </style>

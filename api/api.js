@@ -20,5 +20,32 @@ export const register = (data) => {
 }
 
 
+// 修改密码
+export const updatePassword = (data) => {
+	let requestParams = {}
+	requestParams.url = "app/user/password"
+	requestParams.method = "PUT"
+	requestParams.data = data
+	return request(requestParams);
+}
+
+
+export const getUserInfo = () => {
+	let requestParams = {}
+	requestParams.url = "app/user/"
+	requestParams.method = "GET"
+	requestParams.data = {}
+	return request(requestParams);
+}
+
+export const updateUserInfo = (data) => {
+	let requestParams = {}
+	requestParams.url = "app/user"
+	requestParams.method = "PUT"
+	requestParams.data = data
+	return request(requestParams);
+}
+
+
 
 

@@ -8,13 +8,11 @@
       </view>
       <view class="list-call">
         <image class="img" src="/static/login/2.png"></image>
-        <input class="sl-input" type="text" v-model="password" maxlength="32" placeholder="请输入新密码" :password="!showPassword" />
-        <image class="img" :src="showPassword?'/static/shilu-login/op.png':'/static/login/cl.png'" @tap="display"></image>
+        <input class="sl-input" type="password" v-model="password" maxlength="32" placeholder="请输入旧密码"/>
       </view>
       <view class="list-call">
-        <image class="img" src="/static/login/3.png"></image>
-        <input class="sl-input" type="number" v-model="code" maxlength="4" placeholder="验证码" />
-        <view class="yzm" :class="{ yzms: second>0 }" @tap="getcode">{{yanzhengma}}</view>
+        <image class="img" src="/static/login/2.png"></image>
+        <input class="sl-input" type="password" v-model="newPassword" maxlength="32" placeholder="请输入新密码"/>
       </view>
     </view>
     <view class="button-login" hover-class="button-hover" @tap="bindLogin()">
@@ -26,6 +24,7 @@
 
 <script>
   var _this, js;
+  import {updatePassword} from '../../api/api.js'
   export default {
     data() {
       return {
@@ -33,7 +32,8 @@
         second: 0,
         code: "",
         showPassword: false,
-        password: ''
+        password: '',
+		newPassword: ''
       }
     },
     onLoad() {
@@ -64,56 +64,6 @@
         js = null
         this.second = 0
       },
-      getcode() {
-        if (this.phone.length != 11) {
-          uni.showToast({
-            icon: 'none',
-            title: '手机号不正确'
-          });
-          return;
-        }
-        if (this.second > 0) {
-          return;
-        }
-        _this.second = 60;
-        js = setInterval(function() {
-          _this.second--;
-          if (_this.second == 0) {
-            _this.clear()
-          }
-        }, 1000)
-        uni.request({
-          url: 'http://***/getcode.html', //仅为示例，并非真实接口地址。
-          data: {
-            phone: this.phone,
-            type: 'forget'
-          },
-          method: 'POST',
-          dataType: 'json',
-          success: (res) => {
-            if (res.data.code != 200) {
-              uni.showToast({
-                title: res.data.msg,
-                icon: 'none'
-              });
-              _this.second = 0;
-            } else {
-              uni.showToast({
-                title: res.data.msg
-              });
-              _this.second = 60;
-              js = setInterval(function() {
-                _this.second--;
-                if (_this.second == 0) {
-                  _this.clear()
-                }
-              }, 1000)
-            }
-          },fail() {
-            this.clear()
-          }
-        });
-      },
       bindLogin() {
         if (this.phone.length != 11) {
           uni.showToast({
@@ -122,45 +72,38 @@
           });
           return;
         }
-        if (this.password.length < 6) {
+        if (this.password.length < 4) {
           uni.showToast({
             icon: 'none',
-            title: '密码不正确'
+            title: '旧密码不正确'
           });
           return;
         }
-        if (this.code.length != 4) {
+        if (this.newPassword.length < 4) {
           uni.showToast({
             icon: 'none',
-            title: '验证码不正确'
+            title: '新密码不正确'
           });
           return;
         }
-        uni.request({
-          url: 'http://***/forget.html',
-          data: {
-            phone: this.phone,
-            password: this.password,
-            code: this.code
-          },
-          method: 'POST',
-          dataType: 'json',
-          success: (res) => {
-            if (res.data.code != 200) {
-              uni.showToast({
-                title: res.data.msg,
-                icon: 'none'
-              });
-            } else {
-              uni.showToast({
-                title: res.data.msg
-              });
-              setTimeout(function() {
-                uni.navigateBack();
-              }, 1500)
-            }
-          }
-        });
+		let data = {}
+		data.username = this.phone
+		data.password = this.password
+		data.newPassword = this.newPassword
+		updatePassword(data)
+		.then((res)=>{
+			if(res.data.code === 200){
+				uni.showToast({
+					title: "修改成功"
+				})
+				uni.navigateBack({
+					
+				})
+			}
+		})
+		.catch((error)=>{
+			
+		})
 
       }
     }

@@ -18,7 +18,12 @@
 				<view v-for="(item,index) in popButton" :key="index" @tap="pickerMenu" :data-index="index">{{item}}</view>
 			</view>
 		</view>
+		
 		<add-symbol @floatTapEvent="floatTapEvent"></add-symbol>
+		
+		<!-- 背景图片 -->
+		<image class="image-bg" src="../../static/img/bg_01.jpeg"/>
+		
 	</view>
 </template>
 
@@ -215,6 +220,19 @@
 </script>
 
 <style scoped lang="scss">
+	
+	.image-bg {
+	    position: absolute;
+	    z-index: -1;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    right: 0;
+	    width: 100%;
+	    height: 100%;
+	}
+	
+	
 	/* 列式弹性盒子 */
 	.flex_col {
 		display: flex;

@@ -1,8 +1,12 @@
 <template>
-	<view style="background-image: url(../../static/img/comment_bg.png);">
+	<view>
 		<uni-list v-for="(item,index) in commentList" :key="index" :data-index="index">
 			<uni-list-item :title="item.name" :note="item.content"></uni-list-item>
 		</uni-list>
+
+
+		<!-- 背景图片 --> 
+		<image class="image-bg" src="../../static/img/bg_04.jpeg"/>
 
 	</view>
 </template>
@@ -43,7 +47,7 @@
 				]
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.listData()
 		},
 		methods: {
@@ -74,5 +78,14 @@
 </script>
 
 <style lang="scss">
-
+.image-bg {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+}
 </style>

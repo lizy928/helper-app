@@ -15,20 +15,20 @@
 		}, {
 			"path": "pages/signIn/signIn",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "签到",
 				"enablePullDownRefresh": false
 			}
 		}, {
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "个人中心",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "用户登录",
 				"navigationBarBackgroundColor": "#FFFFFF"
 			}
 		},
@@ -56,7 +56,7 @@
             "path" : "pages/note/note",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "备忘录",
                 "enablePullDownRefresh": false
             }
             
@@ -65,7 +65,7 @@
             "path" : "pages/signIn/addProject",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "新增打卡",
                 "enablePullDownRefresh": false
             }
             
@@ -101,7 +101,7 @@
             "path" : "pages/note/edit",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "编辑",
                 "enablePullDownRefresh": false
             }
             
@@ -110,7 +110,7 @@
 		    "path" : "pages/HM-chat/HM-chat",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "",
+		        "navigationBarTitleText": "聊天机器人",
 		        "enablePullDownRefresh": false
 		    }
 		    
@@ -155,7 +155,7 @@
             "path" : "pages/my/eventReminder/add",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "新增提醒",
                 "enablePullDownRefresh": false
             }
         },

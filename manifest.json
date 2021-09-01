@@ -1,5 +1,5 @@
 {
-    "name" : "helper-app",
+    "name" : "小助手",
     "appid" : "__UNI__1ECAF00",
     "description" : "",
     "versionName" : "1.0.0",
@@ -43,7 +43,39 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {},
+            "icons" : {
+                "android" : {
+                    "hdpi" : "/Users/dliony/Downloads/帮助手册.png",
+                    "xhdpi" : "/Users/dliony/Downloads/帮助手册 (1).png",
+                    "xxhdpi" : "/Users/dliony/Downloads/帮助手册 (2).png",
+                    "xxxhdpi" : "/Users/dliony/Downloads/帮助手册 (3).png"
+                },
+                "ios" : {
+                    "iphone" : {
+                        "settings@3x" : "/Users/dliony/Downloads/帮助手册 (4).png",
+                        "spotlight@3x" : "/Users/dliony/Downloads/帮助手册 (5).png",
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    }
+                }
+            }
         }
     },
     /* 快应用特有相关 */
