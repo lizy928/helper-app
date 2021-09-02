@@ -4,12 +4,17 @@
 			@dateChange="getData" @clickChange="clickSign">
 		</model-calendar>
 		<view class='count'>
+			<view>
+				<text>今日</text>
+				<text style="font-size: large; color: #0eff6e;" v-if="todaySignIn">已</text>
+				<text style="font-size: large; color: #FF5A5F;" v-if="!todaySignIn">未</text>
+				<text>签到</text>
+			</view>
 			<text>截至目前，已坚持打卡</text>
 			<view class='daynumber'>
 				<text class='number'>{{totalCount}}</text>
 				<text class='day'>天</text>
 			</view>
-
 			<view>本月累积打卡<text class="monthSum">{{monthCount}}</text>天</view>
 			<text>请再接再厉，继续努力!</text>
 		</view>
@@ -20,7 +25,6 @@
 	import modelCalendar from '@/components/Calendar.vue';
 	
 	import {getRecordDetail, addRecord} from '../../api/signIn.js'
-
 	export default {
 		data() {
 			return {
@@ -29,7 +33,8 @@
 				totalCount: 0,
 				signData: [],
 				singInId: '',
-				monthCount: 0
+				monthCount: 0,
+				todaySignIn: false
 			};
 		},
 		components: {
@@ -37,13 +42,14 @@
 		},
 		onLoad(option) {
 			this.singInId = option.id
+			//获取当前用户当前任务的签到状态
+			this.getData(this.toYear + "-" + this.toMonth);
 		},
 		created() {
-			//获取当前用户当前任务的签到状态  			
-			this.getData(this.toYear + "-" + this.toMonth);
 		},
 		methods: {
 			clickSign(day) {
+				let that = this
 				var params = {}
 				params.signInId = this.singInId
 				params.signInTime = day
@@ -56,8 +62,9 @@
 							title: "签到成功",
 							duration: 2000
 						})
-						this.signData.push(day);
-						this.sumCount++
+						that.signData.push(day);
+						that.sumCount++
+						that.totalCount ++ 
 					} else {
 						uni.showToast({
 							title: res.data.message,
@@ -75,37 +82,26 @@
 
 			//获取当前用户该任务的签到数组
 			getData(val) {
+				let that = this
 				let dateList = []
-				getRecordDetail(this.singInId)
+				let signId = that.singInId;
+				let params = {}
+				params.date = val
+				getRecordDetail(that.singInId, params)
 				.then((res) => {
-					this.sumCount = res.data.data.length
-					let list = res.data.data
-					list.forEach(function(value, row, index) {
+					that.totalCount = res.data.data.totalCount
+					that.monthCount = res.data.data.monthCount
+					that.todaySignIn = res.data.data.todaySignIn
+					let recordList = res.data.data.recordList
+					recordList.forEach(function(value, row, index) {
 						dateList.push(value.signInTime)
 					})
+					that.signData = dateList
+					that.onJudgeSign();
 				})
 				.catch((error) => {
 			
 				})
-				this.signData = dateList
-			},
-
-			getRecord() {
-				let that = this
-				getRecordDetail(that.singInId)
-					.then((res) => {
-						this.totalCount = res.data.data.totalCount
-						this.monthCount = res.data.data.monthCount
-						let list = res.data.data.recordList
-						list.forEach(function(value, row, index) {
-							that.SignUp.push(value.signInTime)
-						})
-					})
-					.catch((error) => {
-
-					})
-				console.log(that.SignUp.length)
-				this.onJudgeSign();
 			},
 			signIn(date, type) {
 				var params = {}
@@ -116,13 +112,20 @@
 				params.remark = "123"
 				addRecord(params)
 					.then((res) => {
-						uni.showToast({
-							title: str + "成功" + date + "号",
-							icon: 'success',
-							duration: 2000
-						});
-						//refresh
-						this.onJudgeSign();
+						if(res.data.code === 200){
+							uni.showToast({
+								title: str + "成功" + date + "号",
+								icon: 'success',
+								duration: 2000
+							});
+							//refresh
+							this.onJudgeSign();
+						} else {
+							uni.showToast({
+								icon: "error",
+								title: res.data.message
+							})
+						}
 					})
 					.catch((error) => {
 
@@ -144,8 +147,8 @@
 	}
 
 	.count {
-		margin: 20rpx;
-		padding: 30rpx;
+		margin: 10rpx;
+		padding: 20rpx;
 		display: flex;
 		text-align: center;
 		border-radius: 10px;

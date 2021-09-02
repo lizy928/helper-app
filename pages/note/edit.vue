@@ -24,6 +24,10 @@
 			this.index = option.index
 			this.initData()
 		},
+		onBackPress(options) {
+			console.log('from:' + options.from)
+			
+		},
 		methods: {
 			// 点击发布
 			editOk(res) {
@@ -37,8 +41,8 @@
 					const value = uni.getStorageSync('note_list');
 					if (value) {
 						dataList.push(data)
-						value.forEach(function(value, index, arr) {
-							if (index !== that.index) {
+						value.forEach(function(value, i, arr) {
+							if (i != that.index) {
 								dataList.push(value)
 							}
 						})
@@ -60,8 +64,8 @@
 				try {
 					const value = uni.getStorageSync('note_list');
 					if (value) {
-						value.forEach(function(value, index, arr) {
-							if (index == that.index) {
+						value.forEach(function(value, i, arr) {
+							if (i == that.index) {
 								that.content = value.content
 							}
 						})

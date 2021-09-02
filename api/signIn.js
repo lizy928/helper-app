@@ -48,11 +48,11 @@ export const get = (id) => {
 
 
 // 打卡记录列表
-export const getRecordDetail = (signInId) => {
+export const getRecordDetail = (signInId, data) => {
 	let requestParams = {}
 	requestParams.url = "app/signInRecord/" + signInId
 	requestParams.method = "GET"
-	requestParams.data = {}
+	requestParams.data = data
 	return request(requestParams);
 }
 

@@ -7,7 +7,8 @@
 				<view class="flex_grow">
 					<view class="flex_col">
 						<view class="flex_grow">{{item.name}}</view>
-						<view class="time">{{item.createTime}}</view>
+						<view v-if="item.updateTime" class="time">{{item.updateTime}}</view>
+						<view v-else class="time">{{item.createTime}}</view>
 					</view>
 					<view class="info">{{item.desc}}</view>
 				</view>
@@ -194,7 +195,6 @@
 				this.hidePop();
 			},
 			openItem(item){
-				console.log("click item");
 				//在起始页面跳转到test.vue页面并传递参数
 				uni.navigateTo({
 					url: '/pages/signIn/signIn?id=' + item.id,
@@ -297,7 +297,7 @@
 				}
 
 				.time {
-					width: 150upx;
+					width: 250upx;
 					text-align: right;
 				}
 

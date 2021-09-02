@@ -38,11 +38,7 @@
 			<view class="setting-layer" v-if="showSettingLayer">
 				<view class="single" @click="release(true)">
 					<jinIcon class="icon" type="&#xe639;" ></jinIcon>
-					<view>公开发布</view>
-				</view>
-				<view class="single" @click="release(false)">
-					<jinIcon class="icon" type="&#xe655;" ></jinIcon>
-					<view>私密保存</view>
+					<view>保存</view>
 				</view>
 			</view>
 		</view>

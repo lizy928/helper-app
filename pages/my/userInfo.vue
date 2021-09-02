@@ -1,15 +1,15 @@
 <template>
 	<view class="container">
 		<view class="ui-all">
-			<view class="avatar" @tap="avatarChoose">
-				<view  class="imgAvatar">
-					<view class="iavatar">
-						<image :src="avater"></image>
-					</view>
-				</view>
-				<text v-if="avater">修改头像</text>
-				<text v-if="!avater">上传头像</text>
-				<button v-if="!avater" open-type="getUserInfo" @tap="getUserInfo" class="getInfo"></button>
+			<view class="ui-list">
+				<avatar
+					:bgImage="imgBg"
+					selWidth="200px" selHeight="200px"  ref='avatar'
+					:avatarSrc="avatarUrl" @upload="myUpload" quality="1" inner=true
+					avatarStyle="width: 100px; height: 100px; margin-left: 60px">
+					<text v-if="avaterUrl">修改头像</text>
+					<text v-if="!avaterUrl">上传头像</text>
+				</avatar>
 			</view>
 			<view class="ui-list">
 				<text>昵称</text>
@@ -33,32 +33,70 @@
 <script>
 	import {baseUrl} from '../../api/http.js'
 	import {updateUserInfo} from '../../api/api.js'
+	import avatar from "../../components/yq-avatar/yq-avatar.vue";
 	export default {
-	
+		components: {
+			avatar
+		},
 		data() {
 			return {
 				value: '请填写',
 				sex: [{
-					id: 1,
+					id: 0,
 					name: '男'
 				}, {
-					id: 2,
+					id: 1,
 					name: '女'
 				}],
 				index: 0,
 				region: ['请填写'],
 				date: '请填写',
-				avater: '',
+				avaterUrl: '',
 				description: '',
 				url: '',
 				nickName: '',
 				mobile: '',
-				headimg: ''
-
+				headimg: '',
+				avatarUrl: '../../static/img/avatar.jpeg',
+				imgBg: '../../static/img/bg_01.jpeg'
 			}
-
 		},
 		methods: {
+			clk(index) {
+				this.$refs.avatar.fChooseImg(index,{
+					selWidth: "300upx", selHeight: "300upx",
+					expWidth: '260upx', expHeight: '260upx'
+				});
+			},
+			myUpload(rsp) {
+				let that = this
+				that.avatarUrl = rsp.path;
+				uni.uploadFile({
+					header: {
+						Token: uni.getStorageSync('token')
+					},
+					url: baseUrl+'app/file/upload',
+					filePath: rsp.path,
+					name: 'file',
+					formData: {
+						'file': rsp.path
+					},
+					success: (res) => {
+						var data = JSON.parse(res.data);
+						data = data.data;
+						let hederUrl = baseUrl + 'app/file/' + data.fileName;
+						that.headimg = data.fileName
+						that.avaterUrl = hederUrl
+						let userInfo = uni.getStorageSync("userInfo")
+						userInfo.avatar = data.fileName
+						uni.setStorageSync("userInfo", userInfo)
+					},
+					complete(res) {
+						console.log(res)
+					}
+				});
+				
+			},
 			bindPickerChange(e) {
 				this.index = e.detail.value;
 				
@@ -82,19 +120,6 @@
 			binddescription(e) {
 				this.description = e.detail.value;
 				
-			},
-			avatarChoose() {
-				let that = this;
-				uni.chooseImage({
-					count: 1,
-					sizeType: ['original', 'compressed'],
-					sourceType: ['album', 'camera'],
-					success(res) {
-						// tempFilePath可以作为img标签的src属性显示图片
-						that.imgUpload(res.tempFilePaths);
-						const tempFilePaths = res.tempFilePaths;
-					}
-				});
 			},
 			 getUserInfo () {
 				  uni.getUserProfile({
@@ -123,7 +148,7 @@
 				let that = this;
 				let nickname = that.nickName;
 				let headimg = that.headimg;
-				let sex = that.index + 1;
+				let sex = that.index;
 				let mobile = that.mobile;
 				let region = that.region;
 				let birthday = that.date;
@@ -138,10 +163,10 @@
 					return;
 				}
 				updata.nickname = nickname;
-				if (!headimg) {
-					headimg = that.headimg;
+				if (headimg) {
+					updata.avatar = headimg;
 				}
-				updata.avatar = headimg;
+				debugger
 				updata.sex = sex;
 				updata.birthday = birthday;
 				updata.description = description;
@@ -149,6 +174,7 @@
 			},
 			async updata(datas) {
 				//传后台
+				debugger
 				updateUserInfo(datas)
 				.then((res)=>{
 					if(res.data.code === 200){
@@ -192,9 +218,13 @@
 		},
 		onShow() {	
 			const userInfo = uni.getStorageSync('userInfo'); 
-			this.avater = baseUrl + 'app/file/' + userInfo.avatar
+			if(userInfo.avatar){
+				this.avatarUrl = baseUrl + 'app/file/' + userInfo.avatar
+			}
+			if(userInfo.sex){
+				this.index = userInfo.sex
+			}
 			this.nickName = userInfo.nickName
-			this.sex = userInfo.sex
 		}
 
 	}

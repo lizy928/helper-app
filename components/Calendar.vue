@@ -314,7 +314,7 @@
 		word-wrap:break-word;
 		
 		font-size: 14px;
-		padding: 10px;
+		padding: 5px;
 	}
 	.impTip{
 		display: inline-block;

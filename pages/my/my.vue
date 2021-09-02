@@ -53,13 +53,18 @@
 
 <script>
 	import {baseUrl} from '../../api/http.js'
+	import avatar from "../../components/yq-avatar/yq-avatar.vue";
 	export default {
+		components: {
+			avatar
+		},
 		data() {
 			return {
 				login: false,
 				avatar: '../../static/img/avatar.jpeg',
 				uerInfo: {},
-				avatarUrl: ''
+				avatarUrl: '',
+				imgBg: '../../static/img/bg_01.jpeg'
 			}
 		},
 		onShow() {

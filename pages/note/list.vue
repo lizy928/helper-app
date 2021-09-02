@@ -90,7 +90,6 @@
 				}
 			},
 			clickMethod(data) {
-				debugger
 				console.log('点击行回调', data)
 				uni.navigateTo({
 					url: 'edit?index=' + data.index
@@ -182,7 +181,6 @@
 			},
 			synchronizeData(){
 				try {
-					debugger
 				    const value = uni.getStorageSync('note_list');
 				    if (value) {
 						uni.showLoading({
